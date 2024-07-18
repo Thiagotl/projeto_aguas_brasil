@@ -10,12 +10,10 @@ banco<-data.frame(banco)
 
 
 #---- AGRUPADO POR MUNICIPIO----#
-banco_mun<- banco |> 
-  group_by(municipio) |> 
-  summarize(substancia = list(na.omit(substancia)), n())  |> 
-  ungroup()
-
-View(banco_mun)
+# banco_mun<- banco |> 
+#   group_by(municipio) |> 
+#   summarize(substancia = list(na.omit(substancia)), n())  |> 
+#   ungroup() View(banco_mun)
 
 
 #---- AGRUPADO POR SUSBSTANCIA ----#
@@ -31,7 +29,7 @@ View(agrupado_por_substancia)
 banco_periodo<-banco |> 
   group_by(ano, semestre, municipio, substancia) |> 
   summarise(count=n(), .groups = 'drop')
-
+View(banco_periodo)
 
 banco_periodo2<- banco |> 
   mutate(data_da_coleta = dmy(data_da_coleta),
