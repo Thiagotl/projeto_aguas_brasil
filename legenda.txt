@@ -1,0 +1,19 @@
+"Fonte: Sisagua/Ministério da Saúde (2018, 2019 e 2020); Repórter Brasil. Dados acessados em 2 de novembro de 2021, não contempla atualizações e retificações feitas desde então.
+
+VMP (Valor Máximo Permitido): concentração máxima permitida para cada substância na água. Este valor é determinado pelo Ministério da Saúde.
+
+Resultado: concentração da substância testada. Quando não quantificado, pode ser expresso como ""menor que LD"" ou ""menor que LQ"".
+
+LD (Limite de Detecção): valor mínimo que o equipamento consegue captar a presença de certa substância na água. Segundo o Ministério da Saúde, “ Menor que LD” significa que a substância está ausente daquela amostra de água ou em concentração inferior àquela que o equipamento consegue detectar.
+
+LQ (Limite de Quantificação): valor mínimo que o equipamento consegue medir a concentração de certa substância na água. Segundo o Ministério da Saúde, “Menor que LQ” é quando é possível identificar a presença daquela substância na água, mas não a concentração existente.
+
+Tipo_cor: 1 são as “substâncias com os maiores riscos de gerar doenças crônicas, como câncer”; 2 são as outras “substâncias que geram riscos à saúde”
+
+CNPJ: A coluna ""cnpj_da_instituicao"" possui o formato original da base do Sisagua/Ministério da Saúde. Todo o CNPJ tem 14 dígitos. Nos casos em que existe um número de dígitos menor, o recomendado é acrescentar zeros à esquerda para completar os 14 dígitos.
+
+Metodologia do Mapa da Água:
+https://mapadaagua.reporterbrasil.org.br/metodologia
+
+Dicionário de dados do Sisagua / Ministério da Saúde:
+https://dados.gov.br/dataset/controle-semestral/resource/7f74253a-2cdd-411f-9d96-8e88a5638d85"																													
