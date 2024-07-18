@@ -18,8 +18,6 @@ banco_mun<- banco |>
 View(banco_mun)
 
 
-
-
 #---- AGRUPADO POR SUSBSTANCIA ----#
 agrupado_por_substancia <- banco |> 
   group_by(substancia) |> 
@@ -30,7 +28,12 @@ View(agrupado_por_substancia)
 
 #---- PERIODICIDADE ----#
 
-banco_periodo<- banco |> 
+banco_periodo<-banco |> 
+  group_by(ano, semestre, municipio, substancia) |> 
+  summarise(count=n(), .groups = 'drop')
+
+
+banco_periodo2<- banco |> 
   mutate(data_da_coleta = dmy(data_da_coleta),
          data_da_analise = dmy(data_da_analise))
 attach(banco_periodo)
@@ -41,6 +44,7 @@ banco_periodo <-banco_periodo |>
 #View(banco_periodo)
 
 
+# PRIMEIRO TRIMESTRE 2018 A 2020
 df_1trimestre <- banco_periodo |> 
   filter(month(data_da_analise) %in% 1:3)
 
@@ -50,3 +54,18 @@ sub_muni_1trimestre<-df_1trimestre |>
   summarise(count = n(), .groups = 'drop')
 
 View(sub_muni_1trimestre)
+
+
+# SEGUNDO TRIMESTRE 2018 A 2020
+
+df_2trimestre<-banco_periodo |> 
+  filter(month(data_da_analise) %in% 4:6)
+
+sub_muni_2trimestre <-df_2trimestre |> 
+  group_by(data_da_analise, municipio, substancia) |> 
+  summarise(count = n(), .groups = 'drop')
+
+View(sub_muni_2trimestre)
+
+
+
