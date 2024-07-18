@@ -8,6 +8,14 @@ attach(banco)
 
 banco<-data.frame(banco)
 
+banco<-banco |> 
+  mutate(data_da_coleta = dmy(data_da_coleta),
+         data_da_analise = dmy(data_da_analise))
+
+
+banco<-banco|> 
+  mutate(dif_analise_coleta = data_da_analise - data_da_coleta)
+
 
 #---- AGRUPADO POR MUNICIPIO----#
 # banco_mun<- banco |> 
@@ -31,13 +39,16 @@ banco_periodo<-banco |>
   summarise(count=n(), .groups = 'drop')
 View(banco_periodo)
 
-banco_periodo2<- banco |> 
-  mutate(data_da_coleta = dmy(data_da_coleta),
-         data_da_analise = dmy(data_da_analise))
 attach(banco_periodo)
 
-banco_periodo <-banco_periodo |> 
-  mutate(dif_coleta_analise = (data_da_analise)-(data_da_coleta))
+
+# 
+# banco_periodo2<- banco |> 
+#   mutate(data_da_coleta = dmy(data_da_coleta),
+#          data_da_analise = dmy(data_da_analise))
+# 
+# banco_periodo2 <-banco_periodo2 |> 
+#   mutate(dif_coleta_analise = (data_da_analise)-(data_da_coleta))
 
 #View(banco_periodo)
 
@@ -48,7 +59,7 @@ df_1trimestre <- banco_periodo |>
 
 
 sub_muni_1trimestre<-df_1trimestre |> 
-  group_by(data_da_analise,municipio, substancia) |> 
+  group_by(data_da_analise,municipio, substancia, dif_coleta_analise) |> 
   summarise(count = n(), .groups = 'drop')
 
 View(sub_muni_1trimestre)
