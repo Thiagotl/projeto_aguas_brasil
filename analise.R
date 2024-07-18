@@ -1,4 +1,5 @@
 library(tidyverse)
+library(lubridate)
 #library(readxl)
 banco <- readxl::read_excel("substancias-quimicas-e-radioativas-acima-do-limite-no-brasil-2018-2020 (1).xlsx")
 View(banco)
@@ -7,20 +8,45 @@ attach(banco)
 
 banco<-data.frame(banco)
 
+
+#---- AGRUPADO POR MUNICIPIO----#
 banco_mun<- banco |> 
   group_by(municipio) |> 
-  summarize(substancia = list(na.omit(substancia)))  |> 
+  summarize(substancia = list(na.omit(substancia)), n())  |> 
   ungroup()
-  
 
 View(banco_mun)
 
 
 
 
-##---- AGRUPADO POR SUSBSTANCIA
+#---- AGRUPADO POR SUSBSTANCIA ----#
 agrupado_por_substancia <- banco |> 
   group_by(substancia) |> 
   summarize(municipio = n()) |> 
   arrange(desc(municipio))
-print(agrupado_por_substancia)
+View(agrupado_por_substancia)
+
+
+#---- PERIODICIDADE ----#
+
+banco_periodo<- banco |> 
+  mutate(data_da_coleta = dmy(data_da_coleta),
+         data_da_analise = dmy(data_da_analise))
+attach(banco_periodo)
+
+banco_periodo <-banco_periodo |> 
+  mutate(dif_coleta_analise = (data_da_analise)-(data_da_coleta))
+
+#View(banco_periodo)
+
+
+df_1trimestre <- banco_periodo |> 
+  filter(month(data_da_analise) %in% 1:3)
+
+
+sub_muni_1trimestre<-df_1trimestre |> 
+  group_by(data_da_analise,municipio, substancia) |> 
+  summarise(count = n(), .groups = 'drop')
+
+View(sub_muni_1trimestre)
