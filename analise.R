@@ -42,24 +42,24 @@ View(banco_periodo)
 attach(banco_periodo)
 
 
-# 
+#  
 # banco_periodo2<- banco |> 
 #   mutate(data_da_coleta = dmy(data_da_coleta),
 #          data_da_analise = dmy(data_da_analise))
 # 
 # banco_periodo2 <-banco_periodo2 |> 
-#   mutate(dif_coleta_analise = (data_da_analise)-(data_da_coleta))
-
-#View(banco_periodo)
+#  mutate(dif_coleta_analise = (data_da_analise)-(data_da_coleta))
+# 
+# View(banco_periodo2)
 
 
 # PRIMEIRO TRIMESTRE 2018 A 2020
-df_1trimestre <- banco_periodo |> 
+df_1trimestre <- banco|> 
   filter(month(data_da_analise) %in% 1:3)
 
 
 sub_muni_1trimestre<-df_1trimestre |> 
-  group_by(data_da_analise,municipio, substancia, dif_coleta_analise) |> 
+  group_by(data_da_analise,municipio, substancia, dif_analise_coleta) |> 
   summarise(count = n(), .groups = 'drop')
 
 View(sub_muni_1trimestre)
