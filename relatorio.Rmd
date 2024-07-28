@@ -1,0 +1,110 @@
+---
+title: "Projeto - Águas Brasil"
+author: "Renata Rojas Guerra - Thiago Tavares Lopes"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+header-includes:
+   - \usepackage[brazil]{babel}
+   - \usepackage{bm}
+   - \usepackage{float}
+   - \usepackage{multirow}
+geometry: left=2.5cm, right=2.5cm, top=2cm, bottom=2cm
+toc: true #sumário
+output:
+  bookdown::pdf_document2:
+editor_options:
+  chunk_output_type: console
+  markdown: 
+    wrap: sentence
+---
+```{r, include=FALSE}
+library(tidyverse)
+library(lubridate)
+```
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, include=FALSE}
+#AJUSTE DO BANCO
+banco <- readxl::read_excel("substancias-quimicas-e-radioativas-acima-do-limite-no-brasil-2018-2020 (1).xlsx")
+
+attach(banco)
+
+banco<-data.frame(banco)
+
+banco<-banco |> 
+  mutate(data_da_coleta = dmy(data_da_coleta),
+         data_da_analise = dmy(data_da_analise))
+
+
+banco<-banco|> 
+  mutate(dif_analise_coleta = data_da_analise - data_da_coleta)
+
+
+```
+
+```{r}
+# TEMPO MEDIO DE ANALISE DE SUBSTANCIAS MAIS FREQUENTES PARA CADA ESTADO
+
+substancia_desejada1 <- "Trihalometanos Total"  # substitua pelo nome da substância desejada
+
+banco$dif_analise_coleta <-as.numeric(banco$dif_analise_coleta, units = "days")
+
+df_filtrado <- banco |> filter(substancia==substancia_desejada)
+
+
+df1<- df_filtrado |> 
+  select(uf, substancia, dif_analise_coleta) 
+
+df_media<-df1 |> 
+  filter(dif_analise_coleta>0)
+
+substancia_desejada2<-"Ácidos haloacéticos total"
+
+df2_filtrado<-banco |> filter(substancia==substancia_desejada2)
+
+
+```
+
+```{r}
+
+#GRÁFICO Trihalometanos Total
+gf1<-ggplot(df_media, aes(x = uf, y = dif_analise_coleta, fill = uf)) +
+  geom_boxplot(fill = "#2FAFC3", color = "black") +
+  labs(title = paste("Dias até a análise - ", substancia_desejada),
+       x = "Estado",
+       y = "Dias") +
+  theme_classic() +
+  theme(
+    axis.text.x = element_text(angle = 360, hjust = 1, color="black"),
+    axis.text.y=element_text(color="black"),
+    legend.position = "none",
+    plot.title = element_text(hjust = 0.5)) +
+  scale_y_continuous(limits = c(0, 130), breaks = seq(0, 130, by = 10))
+
+#+
+  #scale_fill_manual()
+```
+
+
+
+```{r}
+
+```
+
+
+
+
+
+```{=text}
+# g5<-cowplot::plot_grid((balanco3$g_bar),(vmi3$g_bar),(Vasopressores3$g_bar),(bloq3$g_bar),(anticoagulantes3$g_bar),(Braden3$g_bar),ncol = 2)
+# 
+# ggsave("Imagem_geral/g5.pdf",plot = g5, width = 16, height = 14, units = "cm")
+
+#knitr::include_graphics("Imagem_geral/g5.pdf")
+
+#ggsave("gf2.png", plot = last_plot(), width = 8, height = 6, dpi = 600)
+
+```
+

@@ -37,7 +37,7 @@ agrupado_por_substancia2 <- banco |>
   arrange(desc(uf))
 
 
-View(agrupado_por_substa ncia2)
+#View(agrupado_por_substa ncia2)
 
 
 
