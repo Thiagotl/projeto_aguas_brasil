@@ -71,7 +71,7 @@ df2<-df2_filtrado |>
 substancia_desejada3 <- "Rádio-228"
 
 df3_filtrado3 <- banco |> 
-  filter(substancia==substancia_desejada3)
+  filter(substancia=="Rádio-228")
 
 df3<- df3_filtrado3 |> 
   select(uf, substancia, dif_analise_coleta)
@@ -79,7 +79,7 @@ df3<- df3_filtrado3 |>
 substancia_desejada4<-"Nitrato (como N)"
 
 df4_filtado<-banco |> 
-  filter(substancia==substancia_desejada4)
+  filter(substancia=="Nitrato (como N)")
 
 df4<-df4_filtado |> 
   select(uf, substancia, dif_analise_coleta)
@@ -89,13 +89,25 @@ df4<-df4_filtado |>
 substancia_desejada5<-"Cromo"
 
 df5_filtrado<-banco |> 
-  filter(substancia == "Cromo")
+  filter(substancia == "Cromo") |> 
+  select(uf, substancia, dif_analise_coleta)
 
 df5<-df5_filtrado |> 
   select(uf, substancia, dif_analise_coleta)
 
 
+substancia_desejada6<-"Chumbo"
 
+df6<-banco |> 
+  filter(substancia=="Chumbo") |> #dif_analise_coleta >=1
+  select(uf, substancia, dif_analise_coleta)
+
+substancia_desejada7<-"Mercúrio"
+
+
+df7<-banco |> 
+  filter(substancia=="Mercúrio") |> 
+  select(uf, substancia, dif_analise_coleta)
 
 ```
 
@@ -117,7 +129,6 @@ ggplot(df_media, aes(x = uf, y = dif_analise_coleta, fill = uf)) +
 #+
   #scale_fill_manual()
 ```
-
 
 
 ```{r}
@@ -189,6 +200,39 @@ ggplot(df5, aes(x = uf, y = dif_analise_coleta, fill = uf)) +
 
 
 ```{r}
+ggplot(df6, aes(x = uf, y = dif_analise_coleta, fill = uf)) +
+  geom_boxplot(fill = "#2874A6", color = "black") +
+  labs(title = paste("Dias até a análise - ", substancia_desejada6),
+       x = "Estado",
+       y = "Dias") +
+  theme_classic() +
+  theme(
+    axis.text.x = element_text(angle = 360, hjust = 1, color="black"),
+    axis.text.y=element_text(color="black"),
+    legend.position = "none",
+    plot.title = element_text(hjust = 0.5)) +
+  scale_y_continuous(limits = c(0, 100), breaks = seq(0, 100, by = 10)) 
+
+```
+
+
+```{r}
+ggplot(df7, aes(x = uf, y = dif_analise_coleta, fill = uf)) +
+  geom_boxplot(fill = "#2874A6", color = "black") +
+  labs(title = paste("Dias até a análise - ", substancia_desejada7),
+       x = "Estado",
+       y = "Dias") +
+  theme_classic() +
+  theme(
+    axis.text.x = element_text(angle = 360, hjust = 1, color="black"),
+    axis.text.y=element_text(color="black"),
+    legend.position = "none",
+    plot.title = element_text(hjust = 0.5)) +
+  scale_y_continuous(limits = c(0, 80), breaks = seq(0, 80, by = 10)) 
+```
+
+
+```{r}
 # g5<-cowplot::plot_grid((balanco3$g_bar),(vmi3$g_bar),(Vasopressores3$g_bar),(bloq3$g_bar),(anticoagulantes3$g_bar),(Braden3$g_bar),ncol = 2)
 # 
 # ggsave("Imagem_geral/g5.pdf",plot = g5, width = 16, height = 14, units = "cm")
@@ -198,4 +242,64 @@ ggplot(df5, aes(x = uf, y = dif_analise_coleta, fill = uf)) +
 #ggsave("gf2.png", plot = last_plot(), width = 8, height = 6, dpi = 600)
 
 ```
+
+
+```{r, include=FALSE}
+banco_regiao<-banco |> 
+  filter(regiao_geografica=="SUL") |> 
+  select(uf, substancia) |> 
+  group_by(uf, substancia) |> 
+  summarise(n = n(), .groups = "drop") 
+
+df_regiao<-banco_regiao |> 
+  filter(n>1) |> 
+  group_by(uf) |> 
+  arrange(uf,desc(n))
+
+top_subs<-df_regiao |> 
+  group_by(uf) |> 
+  slice_max(order_by = n, n=4) |> 
+  ungroup()
+
+View(df_regiao)
+```
+
+```{r}
+
+# FAZER SEPARADO SE NECESSÁRIO E DEPOIS JUNTAR USANDO COWPLOT
+ggplot(top_subs, aes(x = reorder(substancia, -n), y = n, fill = uf)) +
+  geom_bar(stat = "identity") +
+  geom_text(aes(label = n,vjust = -0.5))+
+  facet_wrap(~ uf, scales = "free") +
+  labs(title = "Top 4 Substâncias por Frequência em Cada Estado",
+       x = "Substância",
+       y = "Frequência") +
+  theme_classic()+
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        legend.position = 'none') 
+```
+
+```{r}
+ggplot(top_subs, aes(x = substancia, y = n, fill = uf)) +
+  geom_bar(stat = "identity", position = "stack") +
+  geom_text(aes(label = n), position = position_stack(vjust = 0.5)) +
+  labs(title = "Top 4 Substâncias por Frequência em Cada Estado",
+       x = "Substância",
+       y = "Frequência") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+```
+
+
+```{r}
+ggplot(top_subs, aes(x = substancia, y = n, fill = uf)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  geom_text(aes(label = n), position = position_dodge(width = 0.9), vjust = -0.5) +
+  labs(title = "Top 4 Substâncias por Frequência em Cada Estado",
+       x = "Substância",
+       y = "Frequência") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+```
+
 
