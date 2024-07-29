@@ -44,14 +44,14 @@ banco<-banco|>
 
 ```
 
-```{r}
+```{r, include=FALSE}
 # TEMPO MEDIO DE ANALISE DE SUBSTANCIAS MAIS FREQUENTES PARA CADA ESTADO
 
 substancia_desejada1 <- "Trihalometanos Total"  # substitua pelo nome da substância desejada
 
 banco$dif_analise_coleta <-as.numeric(banco$dif_analise_coleta, units = "days")
 
-df_filtrado <- banco |> filter(substancia==substancia_desejada)
+df_filtrado <- banco |> filter(substancia==substancia_desejada1)
 
 
 df1<- df_filtrado |> 
@@ -64,15 +64,47 @@ substancia_desejada2<-"Ácidos haloacéticos total"
 
 df2_filtrado<-banco |> filter(substancia==substancia_desejada2)
 
+df2<-df2_filtrado |> 
+  select(uf, substancia, dif_analise_coleta)
+
+
+substancia_desejada3 <- "Rádio-228"
+
+df3_filtrado3 <- banco |> 
+  filter(substancia==substancia_desejada3)
+
+df3<- df3_filtrado3 |> 
+  select(uf, substancia, dif_analise_coleta)
+
+substancia_desejada4<-"Nitrato (como N)"
+
+df4_filtado<-banco |> 
+  filter(substancia==substancia_desejada4)
+
+df4<-df4_filtado |> 
+  select(uf, substancia, dif_analise_coleta)
+
+
+
+substancia_desejada5<-"Cromo"
+
+df5_filtrado<-banco |> 
+  filter(substancia == "Cromo")
+
+df5<-df5_filtrado |> 
+  select(uf, substancia, dif_analise_coleta)
+
+
+
 
 ```
 
 ```{r}
 
 #GRÁFICO Trihalometanos Total
-gf1<-ggplot(df_media, aes(x = uf, y = dif_analise_coleta, fill = uf)) +
-  geom_boxplot(fill = "#2FAFC3", color = "black") +
-  labs(title = paste("Dias até a análise - ", substancia_desejada),
+ggplot(df_media, aes(x = uf, y = dif_analise_coleta, fill = uf)) +
+  geom_boxplot(fill = "#2874A6", color = "black") +
+  labs(title = paste("Dias até a análise - ", substancia_desejada1),
        x = "Estado",
        y = "Dias") +
   theme_classic() +
@@ -81,8 +113,7 @@ gf1<-ggplot(df_media, aes(x = uf, y = dif_analise_coleta, fill = uf)) +
     axis.text.y=element_text(color="black"),
     legend.position = "none",
     plot.title = element_text(hjust = 0.5)) +
-  scale_y_continuous(limits = c(0, 130), breaks = seq(0, 130, by = 10))
-
+  scale_y_continuous(limits = c(0, 130), breaks = seq(0, 130, by = 10)) 
 #+
   #scale_fill_manual()
 ```
@@ -91,13 +122,73 @@ gf1<-ggplot(df_media, aes(x = uf, y = dif_analise_coleta, fill = uf)) +
 
 ```{r}
 
+# GRAPHS FOR Ácidos haloacéticos total
+ggplot(df4, aes(x = uf, y = dif_analise_coleta, fill = uf)) +
+  geom_boxplot(fill = "#2874A6", color = "black") +
+  labs(title = paste("Dias até a análise - ", substancia_desejada4),
+       x = "Estado",
+       y = "Dias") +
+  theme_classic() +
+  theme(
+    axis.text.x = element_text(angle = 360, hjust = 1, color="black"),
+    axis.text.y=element_text(color="black"),
+    legend.position = "none",
+    plot.title = element_text(hjust = 0.5)) +
+  scale_y_continuous(limits = c(0, 130), breaks = seq(0, 130, by = 10)) 
+
+#+ geom_jitter(width = 0.2)
 ```
 
 
+```{r}
+ggplot(df3, aes(x = uf, y = dif_analise_coleta, fill = uf)) +
+  geom_boxplot(fill = "#2874A6", color = "black") +
+  labs(title = paste("Dias até a análise - ", substancia_desejada3),
+       x = "Estado",
+       y = "Dias") +
+  theme_classic() +
+  theme(
+    axis.text.x = element_text(angle = 360, hjust = 1, color="black"),
+    axis.text.y=element_text(color="black"),
+    legend.position = "none",
+    plot.title = element_text(hjust = 0.5)) +
+  scale_y_continuous(limits = c(0, 100), breaks = seq(0, 100, by = 10)) 
+```
 
 
+```{r}
+ggplot(df4, aes(x = uf, y = dif_analise_coleta, fill = uf)) +
+  geom_boxplot(fill = "#2874A6", color = "black") +
+  labs(title = paste("Dias até a análise - ", substancia_desejada4),
+       x = "Estado",
+       y = "Dias") +
+  theme_classic() +
+  theme(
+    axis.text.x = element_text(angle = 360, hjust = 1, color="black"),
+    axis.text.y=element_text(color="black"),
+    legend.position = "none",
+    plot.title = element_text(hjust = 0.5)) +
+  scale_y_continuous(limits = c(0, 60), breaks = seq(0, 60, by = 10))
+```
 
-```{=text}
+
+```{r}
+ggplot(df5, aes(x = uf, y = dif_analise_coleta, fill = uf)) +
+  geom_boxplot(fill = "#2874A6", color = "black") +
+  labs(title = paste("Dias até a análise - ", substancia_desejada5),
+       x = "Estado",
+       y = "Dias") +
+  theme_classic() +
+  theme(
+    axis.text.x = element_text(angle = 360, hjust = 1, color="black"),
+    axis.text.y=element_text(color="black"),
+    legend.position = "none",
+    plot.title = element_text(hjust = 0.5)) +
+  scale_y_continuous(limits = c(0, 60), breaks = seq(0, 60, by = 10)) 
+```
+
+
+```{r}
 # g5<-cowplot::plot_grid((balanco3$g_bar),(vmi3$g_bar),(Vasopressores3$g_bar),(bloq3$g_bar),(anticoagulantes3$g_bar),(Braden3$g_bar),ncol = 2)
 # 
 # ggsave("Imagem_geral/g5.pdf",plot = g5, width = 16, height = 14, units = "cm")
