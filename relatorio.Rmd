@@ -19,10 +19,12 @@ editor_options:
 ```{r, include=FALSE}
 library(tidyverse)
 library(lubridate)
+library(kableExtra)
 ```
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.pos = 'H',
+                      fig.align = 'center', fig.width = 6.5, fig.height = 3.4)
 ```
 
 ```{r, include=FALSE}
@@ -110,6 +112,35 @@ df7<-banco |>
   select(uf, substancia, dif_analise_coleta)
 
 ```
+
+# Introdução
+
+# Análise Geral
+
+```{r, echo=FALSE}
+banco_top10_sub<-banco |> 
+  group_by(substancia) |> 
+  summarise(municipio=n()) |> 
+  arrange(desc(municipio)) |> drop_na() |> 
+  slice_head(n=10)
+  
+knitr::kable(banco_top10_sub, format = "latex", booktabs = TRUE, caption = "Top 10 Substâncias") |> 
+  kable_styling(latex_options = c("striped","HOLD_position"))
+  
+
+```
+
+```{r, fig.align='center', fig.width=10, fig.height=6}
+ggplot(banco_top10_sub, aes(x=reorder(substancia, municipio), y=municipio)) +
+  geom_bar(stat="identity", fill="#2874A6", color="black") + 
+  labs(x = "Substância",
+       y = "")+
+  geom_text(aes(label = municipio, vjust=-0.3, hjust = -0.1))+
+  coord_flip() +
+  theme_classic()
+```
+
+
 
 ```{r}
 
