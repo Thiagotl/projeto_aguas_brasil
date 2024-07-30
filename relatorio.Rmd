@@ -24,7 +24,7 @@ library(kableExtra)
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.pos = 'H',
-                      fig.align = 'center', fig.width = 6.5, fig.height = 3.4)
+                      fig.align = 'center') #, fig.width = 6.5, fig.height = 3.4
 ```
 
 ```{r, include=FALSE}
@@ -130,67 +130,70 @@ knitr::kable(banco_top10_sub, format = "latex", booktabs = TRUE, caption = "Top 
 
 ```
 
-```{r, fig.align='center', fig.width=10, fig.height=6}
+XX
+
+```{r, fig.align='center', fig.width=11, fig.height=4}
 ggplot(banco_top10_sub, aes(x=reorder(substancia, municipio), y=municipio)) +
-  geom_bar(stat="identity", fill="#2874A6", color="black") + 
+  geom_bar(stat="identity", fill="#009afe", color="black") + 
   labs(x = "Substância",
        y = "")+
+  theme_bw()+
   geom_text(aes(label = municipio, vjust=-0.3, hjust = -0.1))+
-  coord_flip() +
-  theme_classic()
+  coord_flip() 
+  
 ```
 
+XXX
 
 
-```{r}
+```{r, fig.align='center', fig.width=10, fig.height=6}
 
 #GRÁFICO Trihalometanos Total
 ggplot(df_media, aes(x = uf, y = dif_analise_coleta, fill = uf)) +
-  geom_boxplot(fill = "#2874A6", color = "black") +
-  labs(title = paste("Dias até a análise - ", substancia_desejada1),
+  geom_boxplot(fill = "#009afe", color = "black") +
+  labs(title = "",
        x = "Estado",
        y = "Dias") +
-  theme_classic() +
+  theme_bw() +
   theme(
-    axis.text.x = element_text(angle = 360, hjust = 1, color="black"),
-    axis.text.y=element_text(color="black"),
+    axis.text.x = element_text(angle = 360, hjust = 0.5, color="black"),
+    axis.text.y=element_text(color="black", size = 11),
+    axis.ticks.length = unit(0.3, "cm"),
     legend.position = "none",
     plot.title = element_text(hjust = 0.5)) +
   scale_y_continuous(limits = c(0, 130), breaks = seq(0, 130, by = 10)) 
-#+
-  #scale_fill_manual()
 ```
 
 
-```{r}
+```{r, fig.align='center', fig.width=10, fig.height=6}
 
 # GRAPHS FOR Ácidos haloacéticos total
 ggplot(df4, aes(x = uf, y = dif_analise_coleta, fill = uf)) +
-  geom_boxplot(fill = "#2874A6", color = "black") +
+  geom_boxplot(fill = "#009afe", color = "black") +
   labs(title = paste("Dias até a análise - ", substancia_desejada4),
        x = "Estado",
        y = "Dias") +
-  theme_classic() +
+  theme_bw() +
   theme(
-    axis.text.x = element_text(angle = 360, hjust = 1, color="black"),
+    axis.text.x = element_text(angle = 360, hjust = 0.5, color="black"),
     axis.text.y=element_text(color="black"),
     legend.position = "none",
     plot.title = element_text(hjust = 0.5)) +
-  scale_y_continuous(limits = c(0, 130), breaks = seq(0, 130, by = 10)) 
+  scale_y_continuous(limits = c(0, 60), breaks = seq(0, 60, by = 10)) 
 
 #+ geom_jitter(width = 0.2)
 ```
 
 
-```{r}
+```{r, fig.align='center', fig.width=10, fig.height=6}
 ggplot(df3, aes(x = uf, y = dif_analise_coleta, fill = uf)) +
-  geom_boxplot(fill = "#2874A6", color = "black") +
+  geom_boxplot(fill = "#009afe", color = "black") +
   labs(title = paste("Dias até a análise - ", substancia_desejada3),
        x = "Estado",
        y = "Dias") +
-  theme_classic() +
+  theme_bw() +
   theme(
-    axis.text.x = element_text(angle = 360, hjust = 1, color="black"),
+    axis.text.x = element_text(angle = 360, hjust = 0.5, color="black"),
     axis.text.y=element_text(color="black"),
     legend.position = "none",
     plot.title = element_text(hjust = 0.5)) +
@@ -198,15 +201,15 @@ ggplot(df3, aes(x = uf, y = dif_analise_coleta, fill = uf)) +
 ```
 
 
-```{r}
+```{r, fig.align='center', fig.width=10, fig.height=6}
 ggplot(df4, aes(x = uf, y = dif_analise_coleta, fill = uf)) +
-  geom_boxplot(fill = "#2874A6", color = "black") +
+  geom_boxplot(fill = "#009afe", color = "black") +
   labs(title = paste("Dias até a análise - ", substancia_desejada4),
        x = "Estado",
        y = "Dias") +
-  theme_classic() +
+  theme_bw() +
   theme(
-    axis.text.x = element_text(angle = 360, hjust = 1, color="black"),
+    axis.text.x = element_text(angle = 360, hjust = 0.5, color="black"),
     axis.text.y=element_text(color="black"),
     legend.position = "none",
     plot.title = element_text(hjust = 0.5)) +
@@ -214,15 +217,15 @@ ggplot(df4, aes(x = uf, y = dif_analise_coleta, fill = uf)) +
 ```
 
 
-```{r}
+```{r, fig.align='center', fig.width=10, fig.height=6}
 ggplot(df5, aes(x = uf, y = dif_analise_coleta, fill = uf)) +
-  geom_boxplot(fill = "#2874A6", color = "black") +
+  geom_boxplot(fill = "#009afe", color = "black") +
   labs(title = paste("Dias até a análise - ", substancia_desejada5),
        x = "Estado",
        y = "Dias") +
-  theme_classic() +
+  theme_bw() +
   theme(
-    axis.text.x = element_text(angle = 360, hjust = 1, color="black"),
+    axis.text.x = element_text(angle = 360, hjust = 0.5, color="black"),
     axis.text.y=element_text(color="black"),
     legend.position = "none",
     plot.title = element_text(hjust = 0.5)) +
@@ -230,15 +233,15 @@ ggplot(df5, aes(x = uf, y = dif_analise_coleta, fill = uf)) +
 ```
 
 
-```{r}
+```{r, fig.align='center', fig.width=10, fig.height=6}
 ggplot(df6, aes(x = uf, y = dif_analise_coleta, fill = uf)) +
-  geom_boxplot(fill = "#2874A6", color = "black") +
+  geom_boxplot(fill = "#009afe", color = "black") +
   labs(title = paste("Dias até a análise - ", substancia_desejada6),
        x = "Estado",
        y = "Dias") +
-  theme_classic() +
+  theme_bw() +
   theme(
-    axis.text.x = element_text(angle = 360, hjust = 1, color="black"),
+    axis.text.x = element_text(angle = 360, hjust = 0.5, color="black"),
     axis.text.y=element_text(color="black"),
     legend.position = "none",
     plot.title = element_text(hjust = 0.5)) +
@@ -247,15 +250,15 @@ ggplot(df6, aes(x = uf, y = dif_analise_coleta, fill = uf)) +
 ```
 
 
-```{r}
+```{r, fig.align='center', fig.width=10, fig.height=6}
 ggplot(df7, aes(x = uf, y = dif_analise_coleta, fill = uf)) +
-  geom_boxplot(fill = "#2874A6", color = "black") +
+  geom_boxplot(fill = "#009afe", color = "black") +
   labs(title = paste("Dias até a análise - ", substancia_desejada7),
        x = "Estado",
        y = "Dias") +
-  theme_classic() +
+  theme_bw() +
   theme(
-    axis.text.x = element_text(angle = 360, hjust = 1, color="black"),
+    axis.text.x = element_text(angle = 360, hjust = 0.5, color="black"),
     axis.text.y=element_text(color="black"),
     legend.position = "none",
     plot.title = element_text(hjust = 0.5)) +
@@ -274,62 +277,195 @@ ggplot(df7, aes(x = uf, y = dif_analise_coleta, fill = uf)) +
 
 ```
 
+# Substâncias por Região
 
 ```{r, include=FALSE}
-banco_regiao<-banco |> 
+# REGIÃO SUL
+banco_regiao_sul<-banco |> 
   filter(regiao_geografica=="SUL") |> 
   select(uf, substancia) |> 
   group_by(uf, substancia) |> 
   summarise(n = n(), .groups = "drop") 
 
-df_regiao<-banco_regiao |> 
+df_regiao_sul<-banco_regiao_sul |> 
   filter(n>1) |> 
   group_by(uf) |> 
   arrange(uf,desc(n))
 
-top_subs<-df_regiao |> 
+top_subs_sul<-df_regiao_sul |> 
   group_by(uf) |> 
   slice_max(order_by = n, n=4) |> 
   ungroup()
 
-View(df_regiao)
+# REGIAO SUDESTE
+banco_regiao_sudeste <- banco |> 
+  filter(regiao_geografica=="SUDESTE") |> 
+  select(uf, substancia) |> 
+  group_by(uf, substancia) |> 
+  summarise(n=n(), .groups = "drop") |> drop_na()
+
+df_regiao_sudeste<-banco_regiao_sudeste |> 
+  filter(n>1) |> 
+  group_by(uf) |> 
+  arrange(uf, desc(n))
+
+top_subs_sudeste<-df_regiao_sudeste |> 
+  group_by(uf) |> 
+  slice_max(order_by = n, n=4) |> 
+  ungroup()
+
+
+
 ```
 
-```{r}
+
+
+
+```{r,fig.align='center', fig.width=10, fig.height=6}
 
 # FAZER SEPARADO SE NECESSÁRIO E DEPOIS JUNTAR USANDO COWPLOT
-ggplot(top_subs, aes(x = reorder(substancia, -n), y = n, fill = uf)) +
+
+# REGIAO SUL
+ggplot(top_subs_sul, aes(x = reorder(substancia, -n), y = n, fill = uf)) +
+  geom_bar(stat = "identity", , fill="#009afe") +
+  geom_text(aes(label = n,vjust = -0.5))+
+  facet_wrap(~ uf, scales = "free") +
+  labs(title = "Top 4 Substâncias por Frequência em Cada Estado",
+       x = "Substância",
+       y = "Frequência") +
+  theme_bw()+
+  theme(legend.position = 'none',
+        axis.text.x = element_text(angle = 45, hjust = 1),
+        axis.line = element_line(color="black", size = 0.5),
+        axis.ticks = element_line(color="black", size = 0.5),
+        axis.title = element_text(color="black", size =10))
+
+# APENAS RS 
+top_sub_rs <- df_regiao_sul |> 
+  filter(uf=="RS")
+
+ggplot(top_sub_rs, aes(x = reorder(substancia, n), y = n, fill = uf)) +
+  geom_bar(stat = 'identity', fill = "#009afe") + 
+  geom_text(aes(label= n, vjust = -0.1, hjust = -0.3))+
+  theme_bw() + 
+  coord_flip() +
+  labs(x = "Substância",
+       y = " ", 
+       title = " " )+
+  theme( legend.position = "none", # Posição da legenda dentro do gráfico
+    axis.line = element_line(color = "black"), # Linha do eixo
+    axis.ticks = element_line(color = "black"), # Adicionar todos os ticks
+    axis.ticks.length = unit(0.3, "cm"), # Ajustar comprimento dos ticks
+    axis.ticks.x.top = element_blank(), # Remover ticks no topo
+    axis.ticks.y.right = element_blank(), # Remover ticks à direita
+    axis.text.x = element_text(size = 12, color = "black"), # Texto dos ticks do eixo X em preto e tamanho 12
+    axis.text.y = element_text(size = 12, color = "black"),
+    axis.text.x.top = element_blank(), # Remover texto dos ticks no topo
+    axis.text.y.right = element_blank())
+
+# APENAS SC
+top_sub_SC <- df_regiao_sul |> 
+  filter(uf=="SC") |> 
+  filter(n>3)|> drop_na()
+
+ggplot(top_sub_SC, aes(x = reorder(substancia, n), y = n, fill = uf)) +
+  geom_bar(stat = 'identity', fill = "#009afe") + 
+  geom_text(aes(label= n, vjust = -0.1, hjust = -0.3))+
+  theme_bw() + 
+  coord_flip() +
+  labs(x = "Substância",
+       y = " ", 
+       title = "" )+
+  theme(legend.position = "none", # Posição da legenda dentro do gráfico
+    axis.line = element_line(color = "black"), # Linha do eixo
+    axis.ticks = element_line(color = "black"), # Adicionar todos os ticks
+    axis.ticks.length = unit(0.3, "cm"), # Ajustar comprimento dos ticks
+    axis.ticks.x.top = element_blank(), # Remover ticks no topo
+    axis.ticks.y.right = element_blank(), # Remover ticks à direita
+    axis.text.x = element_text(size = 12, color = "black"), # Texto dos ticks do eixo X em preto e tamanho 12
+    axis.text.y = element_text(size = 12, color = "black"),
+    axis.text.x.top = element_blank(), # Remover texto dos ticks no topo
+    axis.text.y.right = element_blank()) +
+    scale_y_continuous(limits = c(0, 300), breaks = seq(0, 300, by = 100))
+
+# SUBSTANCIAS PARANA
+
+top_sub_PR <- df_regiao_sul |> 
+  filter(uf=="PR") |> 
+  filter(n>3)|> drop_na()
+
+ggplot(top_sub_PR, aes(x = reorder(substancia, n), y = n, fill = uf)) +
+  geom_bar(stat = 'identity', fill = "#009afe") + 
+  geom_text(aes(label= n, vjust = -0.01, hjust = -0.4))+
+  theme_bw() + 
+  coord_flip() +
+  labs(x = "Substância",
+       y = " ", 
+       title = "" )+
+  theme(legend.position = "none", # Posição da legenda dentro do gráfico
+    axis.line = element_line(color = "black"), # Linha do eixo
+    axis.ticks = element_line(color = "black"), # Adicionar todos os ticks
+    axis.ticks.length = unit(0.3, "cm"), # Ajustar comprimento dos ticks
+    axis.ticks.x.top = element_blank(), # Remover ticks no topo
+    axis.ticks.y.right = element_blank(), # Remover ticks à direita
+    axis.text.x = element_text(size = 12, color = "black"), # Texto dos ticks do eixo X em preto e tamanho 12
+    axis.text.y = element_text(size = 12, color = "black"),
+    axis.text.x.top = element_blank(), # Remover texto dos ticks no topo
+    axis.text.y.right = element_blank()) +
+    scale_y_continuous(limits = c(0, 100), breaks = seq(0, 100, by = 10))
+
+# top_row_plot<-cowplot::plot_grid(gfRS,gfSC, ncol = 2, rel_widths = c(1,1))
+# combined_plot <- cowplot::plot_grid(top_row_plot, gfPR, ncol = 1, rel_heights = c(2, 1))
+
+
+
+
+```
+
+
+```{r, fig.align='center', fig.width=12, fig.height=15}
+# GRAFICOS SUDESTE
+
+
+ggplot(top_subs_sudeste, aes(x = reorder(substancia, -n), y = n, fill = uf)) +
   geom_bar(stat = "identity") +
   geom_text(aes(label = n,vjust = -0.5))+
   facet_wrap(~ uf, scales = "free") +
   labs(title = "Top 4 Substâncias por Frequência em Cada Estado",
        x = "Substância",
        y = "Frequência") +
-  theme_classic()+
-  theme(axis.text.x = element_text(angle = 45, hjust = 1),
-        legend.position = 'none') 
-```
-
-```{r}
-ggplot(top_subs, aes(x = substancia, y = n, fill = uf)) +
-  geom_bar(stat = "identity", position = "stack") +
-  geom_text(aes(label = n), position = position_stack(vjust = 0.5)) +
-  labs(title = "Top 4 Substâncias por Frequência em Cada Estado",
-       x = "Substância",
-       y = "Frequência") +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+  theme_bw()+
+  theme(legend.position = 'none',
+        axis.text.x = element_text(angle = 45, hjust = 1),
+        axis.line = element_line(color="black", size = 0.5),
+        axis.ticks = element_line(color="black", size = 0.5),
+        axis.title = element_text(color="black", size =10))
 
 ```
 
 
+
+
 ```{r}
-ggplot(top_subs, aes(x = substancia, y = n, fill = uf)) +
-  geom_bar(stat = "identity", position = "dodge") +
-  geom_text(aes(label = n), position = position_dodge(width = 0.9), vjust = -0.5) +
-  labs(title = "Top 4 Substâncias por Frequência em Cada Estado",
-       x = "Substância",
-       y = "Frequência") +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+# ggplot(top_subs_sul, aes(x = substancia, y = n, fill = uf)) +
+#   geom_bar(stat = "identity", position = "stack") +
+#   geom_text(aes(label = n), position = position_stack(vjust = 0.5)) +
+#   labs(title = "Top 4 Substâncias por Frequência em Cada Estado",
+#        x = "Substância",
+#        y = "Frequência") +
+#   theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+```
+
+
+```{r}
+# ggplot(top_subs_sul, aes(x = substancia, y = n, fill = uf)) +
+#   geom_bar(stat = "identity", position = "dodge") +
+#   geom_text(aes(label = n), position = position_dodge(width = 0.9), vjust = -0.5) +
+#   labs(title = "Top 4 Substâncias por Frequência em Cada Estado",
+#        x = "Substância",
+#        y = "Frequência") +
+#   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 ```
 
