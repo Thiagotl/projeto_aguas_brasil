@@ -314,6 +314,45 @@ top_subs_sudeste<-df_regiao_sudeste |>
   slice_max(order_by = n, n=4) |> 
   ungroup()
 
+# REGIAO NORDESTE - FAZER APENAS A TABELA
+
+# banco_regiao_nordeste <- banco |> 
+#   filter(regiao_geografica=="NORDESTE") |> 
+#   select(uf, substancia) |> 
+#   group_by(uf, substancia) |> 
+#   summarise(n=n(), .groups = "drop") |> drop_na()
+# 
+# df_regiao_nordeste<-banco_regiao_nordeste |> 
+#   filter(n>1) |> 
+#   group_by(uf) |> 
+#   arrange(uf, desc(n))
+
+# top_subs_sudeste<-df_regiao_sudeste |> 
+#   group_by(uf) |> 
+#   slice_max(order_by = n, n=4) |> 
+#   ungroup()
+
+
+# REGIAO CENTRO-OESTE
+
+banco_regiao_centro <- banco |> 
+  filter(regiao_geografica=="CENTRO-OESTE") |> 
+  select(uf, substancia) |> 
+  group_by(uf, substancia) |> 
+  summarise(n=n(), .groups = "drop") |> drop_na()
+
+df_regiao_centro<-banco_regiao_centro |>
+  #filter(n>1) |>
+  group_by(uf) |>
+  arrange(uf, desc(n))
+
+# top_subs_sudeste<-df_regiao_sudeste |> 
+#   group_by(uf) |> 
+#   slice_max(order_by = n, n=4) |> 
+#   ungroup()
+
+
+
 
 
 ```
@@ -326,6 +365,22 @@ top_subs_sudeste<-df_regiao_sudeste |>
 # FAZER SEPARADO SE NECESSÁRIO E DEPOIS JUNTAR USANDO COWPLOT
 
 # REGIAO SUL
+ggplot(top_subs_sul, aes(x = reorder(substancia, -n), y = n, fill = uf)) +
+  geom_bar(stat = "identity", , fill="#009afe") +
+  geom_text(aes(label = n,vjust = -0.5))+
+  facet_wrap(~ uf, scales = "free") +
+  labs(title = "Top 4 Substâncias por Frequência em Cada Estado",
+       x = "Substância",
+       y = "Frequência") +
+  theme_bw()+
+  theme(legend.position = 'none',
+        axis.text.x = element_text(angle = 45, hjust = 1),
+        axis.line = element_line(color="black", size = 0.5),
+        axis.ticks = element_line(color="black", size = 0.5),
+        axis.title = element_text(color="black", size =10))
+
+
+
 ggplot(top_subs_sul, aes(x = reorder(substancia, -n), y = n, fill = uf)) +
   geom_bar(stat = "identity", , fill="#009afe") +
   geom_text(aes(label = n,vjust = -0.5))+
