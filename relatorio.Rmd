@@ -167,9 +167,10 @@ medias_tempo<-banco |>
   select(uf, dif_analise_coleta) |> 
   filter(dif_analise_coleta >1) |> 
   group_by(uf) |> 
-  summarise(media = round(mean(dif_analise_coleta, na.rm = TRUE),2),
+  summarise(média = round(mean(dif_analise_coleta, na.rm = TRUE),2),
             mínimo = min(dif_analise_coleta, na.rm = TRUE),
-            máximo = max(dif_analise_coleta, na.rm = TRUE))
+            máximo = max(dif_analise_coleta, na.rm = TRUE)) |>
+  arrange(media)
 
 knitr::kable(medias_tempo, format = "latex", booktabs = TRUE, caption = "Tempo (em dias) até a  análise \\label{tab:tab2}") |> 
   kable_styling(latex_options = c("striped","HOLD_position"), font_size = 8, full_width = FALSE)
@@ -202,58 +203,80 @@ knitr::include_graphics("imagens/plot2.pdf")
 ```
 
 
-```{r, fig.align='center', fig.width=10, fig.height=6}
+```{r, fig.align='center', fig.width=10, fig.height=6, fig.cap="Ácidos haloacéticos total", label="fig3"}
 
-ggplot(df2, aes(x = uf, y = dif_analise_coleta, fill = uf)) +
-  geom_boxplot(fill = "#009afe", color = "black") +
-  labs(title = paste("Dias até a análise - ", substancia_desejada2),
-       x = "Estado",
-       y = "Dias") +
-  theme_bw() +
-  theme(
-    axis.text.x = element_text(angle = 360, hjust = 0.5, color="black"),
-    axis.text.y=element_text(color="black"),
-    legend.position = "none",
-    plot.title = element_text(hjust = 0.5),
-    panel.grid = element_blank()) +
-  scale_y_continuous(limits = c(0, 60), breaks = seq(0, 60, by = 10)) 
 
-#ggsave("imagens/plot3.pdf",plot = last_plot(), width = 28, height = 14, units = "cm", dpi = 600)
+# gf3<-ggplot(df2, aes(x = uf, y = dif_analise_coleta, fill = uf)) +
+#   geom_boxplot(fill = "#009afe", color = "black") +
+#   labs(title ="" ,#paste(" ", substancia_desejada2)
+#        x = "Estado",
+#        y = "Dias") +
+#   theme_bw() +
+#   theme(
+#     axis.text.x = element_text(angle = 360, hjust = 0.5, color="black"),
+#     axis.text.y=element_text(color="black", size=11),
+#     legend.position = "none",
+#    axis.ticks.length = unit(0.3, "cm"),
+#     plot.title = element_text(hjust = 0.5),
+#     panel.grid = element_blank()) +
+#   scale_y_continuous(limits = c(0, 60), breaks = seq(0, 60, by = 10))
+# 
+# ggsave("imagens/plot3.pdf",plot = gf3, width = 28, height = 14, units = "cm", dpi = 600)
 
+knitr::include_graphics("imagens/plot3.pdf")
 
 #+ geom_jitter(width = 0.2)
 ```
 
 
-```{r, fig.align='center', fig.width=10, fig.height=6}
-ggplot(df3, aes(x = uf, y = dif_analise_coleta, fill = uf)) +
-  geom_boxplot(fill = "#009afe", color = "black") +
-  labs(title = paste("Dias até a análise - ", substancia_desejada3),
-       x = "Estado",
-       y = "Dias") +
-  theme_bw() +
-  theme(
-    axis.text.x = element_text(angle = 360, hjust = 0.5, color="black"),
-    axis.text.y=element_text(color="black"),
-    legend.position = "none",
-    plot.title = element_text(hjust = 0.5)) +
-  scale_y_continuous(limits = c(0, 100), breaks = seq(0, 100, by = 10)) 
+
+
+```{r, fig.align='center', fig.width=10, fig.height=6, fig.cap="Rádio-228", label="fig4"}
+# gf4<-ggplot(df3, aes(x = uf, y = dif_analise_coleta, fill = uf)) +
+#   geom_boxplot(fill = "#009afe", color = "black") +
+#   labs(title ="" , #paste("", substancia_desejada3)
+#        x = "Estado",
+#        y = "Dias") +
+#   theme_bw() +
+#   theme(
+#     axis.text.x = element_text(angle = 360, hjust = 0.5, color="black"),
+#     axis.text.y=element_text(color="black", size=11),
+#     axis.ticks.length = unit(0.3, "cm"),
+#     panel.grid = element_blank(),
+#     legend.position = "none",
+#     plot.title = element_text(hjust = 0.5)) +
+#   scale_y_continuous(limits = c(0, 100), breaks = seq(0, 100, by = 10))
+# 
+# 
+# ggsave("imagens/plot4.pdf", plot = gf4, width = 28, height = 14, units = "cm", dpi = 600)
+
+knitr::include_graphics("imagens/plot4.pdf")
+
 ```
 
 
-```{r, fig.align='center', fig.width=10, fig.height=6}
-ggplot(df4, aes(x = uf, y = dif_analise_coleta, fill = uf)) +
-  geom_boxplot(fill = "#009afe", color = "black") +
-  labs(title = paste("Dias até a análise - ", substancia_desejada4),
-       x = "Estado",
-       y = "Dias") +
-  theme_bw() +
-  theme(
-    axis.text.x = element_text(angle = 360, hjust = 0.5, color="black"),
-    axis.text.y=element_text(color="black"),
-    legend.position = "none",
-    plot.title = element_text(hjust = 0.5)) +
-  scale_y_continuous(limits = c(0, 60), breaks = seq(0, 60, by = 10))
+```{r, fig.align='center', fig.width=10, fig.height=6, fig.cap="Nitrato(como N)", label = "fig5"}
+
+# gf5<-ggplot(df4, aes(x = uf, y = dif_analise_coleta, fill = uf)) +
+#   geom_boxplot(fill = "#009afe", color = "black") +
+#   labs(title = "", #paste(" ", substancia_desejada4)
+#        x = "Estado",
+#        y = "Dias") +
+#   theme_bw() +
+#   theme(
+#     axis.text.x = element_text(angle = 360, hjust = 0.5, color="black"),
+#     axis.text.y=element_text(color="black", size=11),
+#     legend.position = "none",
+#     plot.title = element_text(hjust = 0.5),
+#     axis.ticks.length = unit(0.3, "cm"),
+#     panel.grid = element_blank()) +
+#   scale_y_continuous(limits = c(0, 60), breaks = seq(0, 60, by = 10))
+# 
+# ggsave("imagens/plot5.pdf", plot = gf5, width = 28, height = 14, units = "cm", dpi = 600)
+
+
+knitr::include_graphics("imagens/plot5.pdf")
+
 ```
 
 
