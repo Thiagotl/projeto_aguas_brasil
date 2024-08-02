@@ -115,7 +115,12 @@ df7<-banco |>
 
 # Introdução
 
+Este relatório consiste em uma análise exploratória dos dados relativos à análise química de substâncias potencialmente perigosas para a saúde humana, identificadas nas águas de diferentes municípios brasileiros. O banco de dados contém informações sobre testes de análise química realizados nos anos de 2018, 2019 e 2020, abrangendo um total de 759 municípios das regiões Nordeste, Norte, Centro-Oeste, Sudeste e Sul do Brasil.
+
 # Análise Geral
+
+Nesta seção, são apresentados os resultados da análise exploratória do banco de dados geral, considerando os três anos de coleta.
+Inicialmente, foi realizada uma filtragem para determinar a quantidade de substâncias que foram testadas. O banco de dados apresenta um total de 53 substâncias diferentes que foram analisadas em diversos municípios. Para fins de visualização, foram selecionadas apenas as dez substâncias mais frequentemente encontradas nos municípios avaliados, tabela \ref{tab:tab1} . Entre todas as substâncias, nota-se que \textbf{Trihalometanos Totais} e \textbf{Ácidos Haloacéticos Totais} foram encontrados 1158 e 1085 vezes, respectivamente. Vale destacar as substâncias \textbf{chumbo} e \textbf{mercúrio}, que são metais pesados e altamente nocivos à saúde humana devido ao seu acúmulo no corpo. Por último, outro material que merece atenção é o elemento químico \textbf{Rádio-228}, devido seu potencial radioativo.
 
 ```{r, echo=FALSE}
 banco_top10_sub<-banco |> 
@@ -124,53 +129,84 @@ banco_top10_sub<-banco |>
   arrange(desc(municipio)) |> drop_na() |> 
   slice_head(n=10)
   
-knitr::kable(banco_top10_sub, format = "latex", booktabs = TRUE, caption = "Top 10 Substâncias") |> 
+knitr::kable(banco_top10_sub, format = "latex", booktabs = TRUE, caption = "Top 10 Substâncias \\label{tab:tab1}") |> 
   kable_styling(latex_options = c("striped","HOLD_position"))
-  
 
 ```
 
-XX
+\par
 
-```{r, fig.align='center', fig.width=11, fig.height=4}
-ggplot(banco_top10_sub, aes(x=reorder(substancia, municipio), y=municipio)) +
-  geom_bar(stat="identity", fill="#009afe", color="black") + 
-  labs(x = "Substância",
-       y = "")+
-  theme_bw()+
-  geom_text(aes(label = municipio, vjust=-0.3, hjust = -0.1))+
-  coord_flip() 
+A imagem \ref{fig:fig1} apresenta o gráfico de barras da frequência das substâncias.
+
+```{r, fig.align='center', fig.cap="Top 10 substâncias - Banco Geral", label="fig1"}
+#, fig.width=11, fig.height=4
+# plot1<- ggplot(banco_top10_sub, aes(x=reorder(substancia, municipio), y=municipio))+
+#   geom_bar(stat="identity", fill="#009afe", color="black") +
+#   labs(x = "Substância",
+#        y = "")+
+#   theme_bw()+
+#   theme(axis.text.x = element_text(color="black"),
+#     axis.text.y=element_text(color="black"),
+#     panel.grid = element_blank())+
+#   geom_text(aes(label = municipio, vjust=-0.3, hjust = -0.1))+
+#   coord_flip()
+# 
+# ggsave("imagens/plot1.pdf",plot = plot1, width = 28, height = 14, units = "cm", dpi = 600)
+
+knitr::include_graphics("imagens/plot1.pdf")
+
   
 ```
 
-XXX
+# Resultados do tempo de análise
+
+Uma avaliação preliminar do banco de dados revelou a presença de duas variáveis temporais de interesse: \textit{data\_da\_coleta} e \textit{data\_da\_analise}. Para investigar o tempo que cada município leva para analisar uma amostra de água coletada, calculou-se a diferença entre essas duas variáveis. Para a visualização das informações, foram selecionadas substâncias com a maior frequência de testes positivos por estado brasileiro. O gráfico \ref{fig:fig2}, apresenta o boxplot do tempo em dias até a análise da amostra coletada. 
+
+```{r, echo=FALSE}
+medias_tempo<-banco |> 
+  select(uf, dif_analise_coleta) |> 
+  filter(dif_analise_coleta >1) |> 
+  group_by(uf) |> 
+  summarise(media = round(mean(dif_analise_coleta, na.rm = TRUE),2),
+            mínimo = min(dif_analise_coleta, na.rm = TRUE),
+            máximo = max(dif_analise_coleta, na.rm = TRUE))
+
+knitr::kable(medias_tempo, format = "latex", booktabs = TRUE, caption = "Tempo (em dias) até a  análise \\label{tab:tab2}") |> 
+  kable_styling(latex_options = c("striped","HOLD_position"), font_size = 8, full_width = FALSE)
+
+```
+
+
+```{r, fig.align='center', fig.width=10, fig.height=7, fig.cap="Tempo em dias até a análise - Banco Geral", label="fig2"}
+
+
+# gf2<-ggplot(df_media, aes(x = uf, y = dif_analise_coleta, fill = uf)) +
+#   geom_boxplot(fill = "#009afe", color = "black") +
+#   labs(title = "",
+#        x = "Estado",
+#        y = "Dias") +
+#   theme_bw() +
+#   theme(
+#     axis.text.x = element_text(angle = 360, hjust = 0.5, color="black"),
+#     axis.text.y=element_text(color="black", size = 11),
+#     axis.ticks.length = unit(0.3, "cm"),
+#     legend.position = "none",
+#     plot.title = element_text(hjust = 0.5), 
+#     panel.grid = element_blank()) +
+#   scale_y_continuous(limits = c(0, 130), breaks = seq(0, 130, by = 10)) 
+#  
+# ggsave("imagens/plot2.pdf",plot = gf2, width = 28, height = 14, units = "cm", dpi = 600)
+
+
+knitr::include_graphics("imagens/plot2.pdf")
+```
 
 
 ```{r, fig.align='center', fig.width=10, fig.height=6}
 
-#GRÁFICO Trihalometanos Total
-ggplot(df_media, aes(x = uf, y = dif_analise_coleta, fill = uf)) +
+ggplot(df2, aes(x = uf, y = dif_analise_coleta, fill = uf)) +
   geom_boxplot(fill = "#009afe", color = "black") +
-  labs(title = "",
-       x = "Estado",
-       y = "Dias") +
-  theme_bw() +
-  theme(
-    axis.text.x = element_text(angle = 360, hjust = 0.5, color="black"),
-    axis.text.y=element_text(color="black", size = 11),
-    axis.ticks.length = unit(0.3, "cm"),
-    legend.position = "none",
-    plot.title = element_text(hjust = 0.5)) +
-  scale_y_continuous(limits = c(0, 130), breaks = seq(0, 130, by = 10)) 
-```
-
-
-```{r, fig.align='center', fig.width=10, fig.height=6}
-
-# GRAPHS FOR Ácidos haloacéticos total
-ggplot(df4, aes(x = uf, y = dif_analise_coleta, fill = uf)) +
-  geom_boxplot(fill = "#009afe", color = "black") +
-  labs(title = paste("Dias até a análise - ", substancia_desejada4),
+  labs(title = paste("Dias até a análise - ", substancia_desejada2),
        x = "Estado",
        y = "Dias") +
   theme_bw() +
@@ -178,8 +214,12 @@ ggplot(df4, aes(x = uf, y = dif_analise_coleta, fill = uf)) +
     axis.text.x = element_text(angle = 360, hjust = 0.5, color="black"),
     axis.text.y=element_text(color="black"),
     legend.position = "none",
-    plot.title = element_text(hjust = 0.5)) +
+    plot.title = element_text(hjust = 0.5),
+    panel.grid = element_blank()) +
   scale_y_continuous(limits = c(0, 60), breaks = seq(0, 60, by = 10)) 
+
+#ggsave("imagens/plot3.pdf",plot = last_plot(), width = 28, height = 14, units = "cm", dpi = 600)
+
 
 #+ geom_jitter(width = 0.2)
 ```

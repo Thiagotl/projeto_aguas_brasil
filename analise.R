@@ -37,6 +37,27 @@ agrupado_por_substancia2 <- banco |>
   arrange(desc(uf))
 
 
+
+#numero de municipios
+
+municipios <- banco |> 
+  group_by(municipio) |> 
+  summarise(n=n()) |> 
+  arrange(desc(n))
+
+
+medias_tempo<-banco |> 
+  select(uf, dif_analise_coleta) |> 
+  filter(dif_analise_coleta >1) |> 
+  group_by(uf) |> 
+  summarise(media = mean(dif_analise_coleta, na.rm = TRUE),
+            máximo = max(dif_analise_coleta, na.rm = TRUE),
+            mínimo = min(dif_analise_coleta, na.rm = TRUE))
+
+summary(teste)
+
+
+
 #View(agrupado_por_substa ncia2)
 
 
