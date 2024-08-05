@@ -115,7 +115,7 @@ df7<-banco |>
 
 # Introdução
 
-Este relatório consiste em uma análise exploratória dos dados relativos à análise química de substâncias potencialmente perigosas para a saúde humana, identificadas nas águas de diferentes municípios brasileiros. O banco de dados contém informações sobre testes de análise química realizados nos anos de 2018, 2019 e 2020, abrangendo um total de 759 municípios das regiões Nordeste, Norte, Centro-Oeste, Sudeste e Sul do Brasil.
+Este relatório consiste em uma análise exploratória dos dados relativos à análise química de substâncias potencialmente perigosas para a saúde humana, identificadas nas águas de diferentes municípios brasileiros. O banco de dados contém informações sobre testes de análise química realizados nos anos de 2018, 2019 e 2020, abrangendo um total de 763 municípios das regiões Nordeste, Norte, Centro-Oeste, Sudeste e Sul do Brasil.
 
 # Análise Geral
 
@@ -158,9 +158,26 @@ knitr::include_graphics("imagens/plot1.pdf")
   
 ```
 
-# Resultados do tempo de análise
+```{r, echo=FALSE}
+num_mun_estado<-banco |> 
+  select(municipio, uf) |> 
+  group_by(uf) |> 
+  summarise(num_municipio=n_distinct(municipio)) |> 
+  arrange(num_municipio)
 
-Uma avaliação preliminar do banco de dados revelou a presença de duas variáveis temporais de interesse: \textit{data\_da\_coleta} e \textit{data\_da\_analise}. Para investigar o tempo que cada município leva para analisar uma amostra de água coletada, calculou-se a diferença entre essas duas variáveis. Para a visualização das informações, foram selecionadas substâncias com a maior frequência de testes positivos por estado brasileiro. O gráfico \ref{fig:fig2}, apresenta o boxplot do tempo em dias até a análise da amostra coletada. 
+knitr::kable(num_mun_estado, format = "latex", booktabs = TRUE, caption = "N° municípios por estado \\label{tab:tab2}") |> 
+  kable_styling(latex_options = c("striped","HOLD_position"))
+
+
+
+```
+
+
+
+# Resultados do tempo de análise - Geral
+
+Uma avaliação preliminar do banco de dados revelou a presença de duas variáveis temporais de interesse: \textit{data\_da\_coleta} e \textit{data\_da\_analise}. Para investigar o tempo que cada município leva para analisar uma amostra de água coletada, calculou-se a diferença entre essas duas variáveis. Para a visualização das informações, foram selecionadas substâncias com a maior frequência de testes positivos por estado brasileiro, o resultado pode ser visualizado na tabela \ref{tab:tab2}. O gráfico \ref{fig:fig2}, apresenta o boxplot do tempo em dias até a análise da amostra coletada para os três anos de estudo. Nota-se que os estados da Bahia, Espirito Santo, Sergipe e Rio Grande do Sul, ocupam as últimas posições do \textit{rank}. 
+
 
 ```{r, echo=FALSE}
 medias_tempo<-banco |> 
@@ -170,7 +187,7 @@ medias_tempo<-banco |>
   summarise(média = round(mean(dif_analise_coleta, na.rm = TRUE),2),
             mínimo = min(dif_analise_coleta, na.rm = TRUE),
             máximo = max(dif_analise_coleta, na.rm = TRUE)) |>
-  arrange(media)
+  arrange(média)
 
 knitr::kable(medias_tempo, format = "latex", booktabs = TRUE, caption = "Tempo (em dias) até a  análise \\label{tab:tab2}") |> 
   kable_styling(latex_options = c("striped","HOLD_position"), font_size = 8, full_width = FALSE)
@@ -201,6 +218,10 @@ knitr::kable(medias_tempo, format = "latex", booktabs = TRUE, caption = "Tempo (
 
 knitr::include_graphics("imagens/plot2.pdf")
 ```
+
+
+## Tempo até análise por substância
+
 
 
 ```{r, fig.align='center', fig.width=10, fig.height=6, fig.cap="Ácidos haloacéticos total", label="fig3"}
