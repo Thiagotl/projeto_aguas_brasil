@@ -190,7 +190,7 @@ medias_tempo<-banco |>
             máximo = max(dif_analise_coleta, na.rm = TRUE)) |>
   arrange(média)
 
-knitr::kable(medias_tempo, format = "latex", booktabs = TRUE, caption = "Tempo (em dias) até a  análise \\label{tab:tab2}") |> 
+knitr::kable(medias_tempo, format = "latex", booktabs = TRUE, caption = "Tempo (em dias) até a  análise \\label{tab:tab3}") |> 
   kable_styling(latex_options = c("striped","HOLD_position"), font_size = 8, full_width = FALSE)
 
 ```
@@ -238,7 +238,7 @@ medias_tempo_df2<- df2 |>
             máximo = max(dif_analise_coleta, na.rm = TRUE)) |>
   arrange(média)
 
-knitr::kable(medias_tempo_df2, format = "latex", booktabs = TRUE, caption = "Tempo (em dias) até a  análise - Ácidos Halocéticos total\\label{tab:tab2}") |> 
+knitr::kable(medias_tempo_df2, format = "latex", booktabs = TRUE, caption = "Tempo (em dias) até a  análise - Ácidos Halocéticos total\\label{tab:tab4}") |> 
   kable_styling(latex_options = c("striped","HOLD_position"), font_size = 8, full_width = FALSE)
 
 
@@ -268,11 +268,29 @@ knitr::kable(medias_tempo_df2, format = "latex", booktabs = TRUE, caption = "Tem
 # 
 # ggsave("imagens/plot3.pdf",plot = gf3, width = 28, height = 14, units = "cm", dpi = 600)
 
-#knitr::include_graphics("imagens/plot3.pdf")
+knitr::include_graphics("imagens/plot3.pdf")
 
 #+ geom_jitter(width = 0.2)
 ```
 
+
+
+Rádio-228
+
+```{r, echo=FALSE}
+medias_tempo_df3<- df3 |> 
+  select(uf, dif_analise_coleta) |> 
+  filter(dif_analise_coleta >1) |> 
+  group_by(uf) |> 
+  summarise(média = round(mean(dif_analise_coleta, na.rm = TRUE),2),
+            mínimo = min(dif_analise_coleta, na.rm = TRUE),
+            mediana = median(dif_analise_coleta, na.rm = TRUE),
+            máximo = max(dif_analise_coleta, na.rm = TRUE)) |>
+  arrange(média)
+
+knitr::kable(medias_tempo_df3, format = "latex", booktabs = TRUE, caption = "Tempo (em dias) até a  análise - Rádio-228\\label{tab:tab5}") |> 
+  kable_styling(latex_options = c("striped","HOLD_position"), font_size = 8, full_width = FALSE)
+```
 
 
 
@@ -296,6 +314,26 @@ knitr::kable(medias_tempo_df2, format = "latex", booktabs = TRUE, caption = "Tem
 # ggsave("imagens/plot4.pdf", plot = gf4, width = 28, height = 14, units = "cm", dpi = 600)
 
 knitr::include_graphics("imagens/plot4.pdf")
+
+```
+
+
+
+Nitrato(como N)
+
+```{r, echo=FALSE}
+medias_tempo_df4<- df4 |> 
+  select(uf, dif_analise_coleta) |> 
+  filter(dif_analise_coleta >1) |> 
+  group_by(uf) |> 
+  summarise(média = round(mean(dif_analise_coleta, na.rm = TRUE),2),
+            mínimo = min(dif_analise_coleta, na.rm = TRUE),
+            mediana = median(dif_analise_coleta, na.rm = TRUE),
+            máximo = max(dif_analise_coleta, na.rm = TRUE)) |>
+  arrange(média)
+
+knitr::kable(medias_tempo_df4, format = "latex", booktabs = TRUE, caption = "Tempo (em dias) até a  análise - Rádio-228\\label{tab:tab6}") |> 
+  kable_styling(latex_options = c("striped","HOLD_position"), font_size = 8, full_width = FALSE)
 
 ```
 
@@ -325,6 +363,9 @@ knitr::include_graphics("imagens/plot5.pdf")
 ```
 
 
+
+
+
 ```{r, fig.align='center', fig.width=10, fig.height=6}
 #CROMO - REMOVI POR QUESTOES DE APRESENTACAO, POUCOS ESTADOS  NAO AGREGA MUITA COISA NO RELATORIO
 
@@ -344,10 +385,31 @@ knitr::include_graphics("imagens/plot5.pdf")
 ```
 
 
+Chumbo
+
+
+```{r, echo=FALSE}
+#Sys.setlocale("LC_ALL", "pt_BR.UTF-8")
+
+medias_tempo_df6<- df6 |> 
+  select(uf, dif_analise_coleta) |> 
+  filter(dif_analise_coleta >1) |> 
+  group_by(uf) |> 
+  summarise(média = round(mean(dif_analise_coleta, na.rm = TRUE),2),
+            mínimo = min(dif_analise_coleta, na.rm = TRUE),
+            mediana = median(dif_analise_coleta, na.rm = TRUE),
+            máximo = max(dif_analise_coleta, na.rm = TRUE)) |>
+  arrange(média)
+
+knitr::kable(medias_tempo_df6, format = "latex", booktabs = TRUE, caption = "Tempo (em dias) até a  análise - Chumbo\\label{tab:tab7}") |> 
+  kable_styling(latex_options = c("striped","HOLD_position"), font_size = 8, full_width = FALSE)
+
+
+
+```
+
+
 ```{r, fig.align='center', fig.width=10, fig.height=6}
-
-
-  
 
 ggplot(df6, aes(x = uf, y = dif_analise_coleta, fill = uf)) +
   geom_boxplot(fill = "#009afe", color = "black") +
@@ -366,6 +428,30 @@ ggplot(df6, aes(x = uf, y = dif_analise_coleta, fill = uf)) +
 ```
 
 
+Mercúrio
+
+```{r, echo=FALSE}
+
+medias_tempo_df7<- df7 |> 
+  select(uf, dif_analise_coleta) |> 
+  filter(dif_analise_coleta >1) |> 
+  group_by(uf) |> 
+  summarise(média = round(mean(dif_analise_coleta, na.rm = TRUE),2),
+            mínimo = min(dif_analise_coleta, na.rm = TRUE),
+            mediana = median(dif_analise_coleta, na.rm = TRUE),
+            máximo = max(dif_analise_coleta, na.rm = TRUE)) |>
+  arrange(média)
+
+knitr::kable(medias_tempo_df7, format = "latex", booktabs = TRUE, caption = "Tempo (em dias) até a  análise - Mercúrio\\label{tab:tab8}") |> 
+  kable_styling(latex_options = c("striped","HOLD_position"), font_size = 8, full_width = FALSE)
+
+
+```
+
+
+
+
+
 ```{r, fig.align='center', fig.width=10, fig.height=6}
 ggplot(df7, aes(x = uf, y = dif_analise_coleta, fill = uf)) +
   geom_boxplot(fill = "#009afe", color = "black") +
@@ -376,6 +462,7 @@ ggplot(df7, aes(x = uf, y = dif_analise_coleta, fill = uf)) +
   theme(
     axis.text.x = element_text(angle = 360, hjust = 0.5, color="black"),
     axis.text.y=element_text(color="black"),
+    panel.grid = element_blank(),
     legend.position = "none",
     plot.title = element_text(hjust = 0.5)) +
   scale_y_continuous(limits = c(0, 80), breaks = seq(0, 80, by = 10)) 
@@ -482,18 +569,19 @@ df_regiao_centro<-banco_regiao_centro |>
 
 # REGIAO SUL
 ggplot(top_subs_sul, aes(x = reorder(substancia, -n), y = n, fill = uf)) +
-  geom_bar(stat = "identity", , fill="#009afe") +
+  geom_bar(stat = "identity", fill="#009afe") +
   geom_text(aes(label = n,vjust = -0.5))+
   facet_wrap(~ uf, scales = "free") +
-  labs(title = "Top Substâncias por Frequência em Cada Estado",
-       x = "Substância",
-       y = "Frequência") +
+  labs(title = "Top Substancias por Frequencia em Cada Estado",
+       x = "Substancia",
+       y = "Frequencia") +
   theme_bw()+
   theme(legend.position = 'none',
         axis.text.x = element_text(angle = 45, hjust = 1),
         axis.line = element_line(color="black", size = 0.5),
         axis.ticks = element_line(color="black", size = 0.5),
-        axis.title = element_text(color="black", size =10))
+        axis.title = element_text(color="black", size =10),
+        panel.grid = element_blank())
 
 
 
@@ -594,23 +682,24 @@ ggplot(top_subs_sul, aes(x = reorder(substancia, -n), y = n, fill = uf)) +
 ```
 
 
-```{r, fig.align='center', fig.width=12, fig.height=15}
+```{r, fig.align='center', fig.width=12, fig.height=14}
 # GRAFICOS SUDESTE
 
 
 ggplot(top_subs_sudeste, aes(x = reorder(substancia, -n), y = n, fill = uf)) +
-  geom_bar(stat = "identity") +
+  geom_bar(stat = "identity", fill="#009afe") +
   geom_text(aes(label = n,vjust = -0.5))+
   facet_wrap(~ uf, scales = "free") +
-  labs(title = "Top Substâncias por Frequência em Cada Estado",
-       x = "Substância",
-       y = "Frequência") +
+  labs(title = "Top Substancias por Frequencia em Cada Estado",
+       x = "Substancia",
+       y = "Frequencia") +
   theme_bw()+
   theme(legend.position = 'none',
         axis.text.x = element_text(angle = 45, hjust = 1),
         axis.line = element_line(color="black", size = 0.5),
         axis.ticks = element_line(color="black", size = 0.5),
-        axis.title = element_text(color="black", size =10))
+        axis.title = element_text(color="black", size =10),
+        panel.grid = element_blank())
 
 ```
 
