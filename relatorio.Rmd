@@ -268,7 +268,7 @@ knitr::kable(medias_tempo_df2, format = "latex", booktabs = TRUE, caption = "Tem
 # 
 # ggsave("imagens/plot3.pdf",plot = gf3, width = 28, height = 14, units = "cm", dpi = 600)
 
-knitr::include_graphics("imagens/plot3.pdf")
+#knitr::include_graphics("imagens/plot3.pdf")
 
 #+ geom_jitter(width = 0.2)
 ```
@@ -313,7 +313,7 @@ knitr::kable(medias_tempo_df3, format = "latex", booktabs = TRUE, caption = "Tem
 # 
 # ggsave("imagens/plot4.pdf", plot = gf4, width = 28, height = 14, units = "cm", dpi = 600)
 
-knitr::include_graphics("imagens/plot4.pdf")
+#knitr::include_graphics("imagens/plot4.pdf")
 
 ```
 
@@ -358,7 +358,7 @@ knitr::kable(medias_tempo_df4, format = "latex", booktabs = TRUE, caption = "Tem
 # ggsave("imagens/plot5.pdf", plot = gf5, width = 28, height = 14, units = "cm", dpi = 600)
 
 
-knitr::include_graphics("imagens/plot5.pdf")
+#knitr::include_graphics("imagens/plot5.pdf")
 
 ```
 
@@ -411,19 +411,19 @@ knitr::kable(medias_tempo_df6, format = "latex", booktabs = TRUE, caption = "Tem
 
 ```{r, fig.align='center', fig.width=10, fig.height=6}
 
-ggplot(df6, aes(x = uf, y = dif_analise_coleta, fill = uf)) +
-  geom_boxplot(fill = "#009afe", color = "black") +
-  labs(title = paste("Dias até a análise - ", substancia_desejada6),
-       x = "Estado",
-       y = "Dias") +
-  theme_bw() +
-  theme(
-    axis.text.x = element_text(angle = 360, hjust = 0.5, color="black"),
-    axis.text.y=element_text(color="black"),
-    panel.grid = element_blank(),
-    legend.position = "none",
-    plot.title = element_text(hjust = 0.5)) +
-  scale_y_continuous(limits = c(0, 100), breaks = seq(0, 100, by = 10)) 
+# ggplot(df6, aes(x = uf, y = dif_analise_coleta, fill = uf)) +
+#   geom_boxplot(fill = "#009afe", color = "black") +
+#   labs(title = paste("Dias até a análise - ", substancia_desejada6),
+#        x = "Estado",
+#        y = "Dias") +
+#   theme_bw() +
+#   theme(
+#     axis.text.x = element_text(angle = 360, hjust = 0.5, color="black"),
+#     axis.text.y=element_text(color="black"),
+#     panel.grid = element_blank(),
+#     legend.position = "none",
+#     plot.title = element_text(hjust = 0.5)) +
+#   scale_y_continuous(limits = c(0, 100), breaks = seq(0, 100, by = 10)) 
 
 ```
 
@@ -453,19 +453,19 @@ knitr::kable(medias_tempo_df7, format = "latex", booktabs = TRUE, caption = "Tem
 
 
 ```{r, fig.align='center', fig.width=10, fig.height=6}
-ggplot(df7, aes(x = uf, y = dif_analise_coleta, fill = uf)) +
-  geom_boxplot(fill = "#009afe", color = "black") +
-  labs(title = paste("Dias até a análise - ", substancia_desejada7),
-       x = "Estado",
-       y = "Dias") +
-  theme_bw() +
-  theme(
-    axis.text.x = element_text(angle = 360, hjust = 0.5, color="black"),
-    axis.text.y=element_text(color="black"),
-    panel.grid = element_blank(),
-    legend.position = "none",
-    plot.title = element_text(hjust = 0.5)) +
-  scale_y_continuous(limits = c(0, 80), breaks = seq(0, 80, by = 10)) 
+# ggplot(df7, aes(x = uf, y = dif_analise_coleta, fill = uf)) +
+#   geom_boxplot(fill = "#009afe", color = "black") +
+#   labs(title = paste("Dias até a análise - ", substancia_desejada7),
+#        x = "Estado",
+#        y = "Dias") +
+#   theme_bw() +
+#   theme(
+#     axis.text.x = element_text(angle = 360, hjust = 0.5, color="black"),
+#     axis.text.y=element_text(color="black"),
+#     panel.grid = element_blank(),
+#     legend.position = "none",
+#     plot.title = element_text(hjust = 0.5)) +
+#   scale_y_continuous(limits = c(0, 80), breaks = seq(0, 80, by = 10)) 
 ```
 
 
