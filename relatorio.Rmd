@@ -113,6 +113,7 @@ df7<-banco |>
 
 ```
 
+\newpage
 # Introdução
 
 Este relatório consiste em uma análise exploratória dos dados relativos à análise química de substâncias potencialmente perigosas para a saúde humana, identificadas nas águas de diferentes municípios brasileiros. O banco de dados contém informações sobre testes de análise química realizados nos anos de 2018, 2019 e 2020, abrangendo um total de 763 municípios das regiões Nordeste, Norte, Centro-Oeste, Sudeste e Sul do Brasil.
@@ -232,7 +233,9 @@ knitr::include_graphics("imagens/plot2.pdf")
 
 ## Tempo até análise por substância
 
-Para um estudo mais detalhado, selecionamos as substâncias mais frequentemente encontradas e verificamos o tempo que cada estado leva para analisar uma amostra que teste positivo para essas substâncias em questão.
+Para um estudo mais detalhado, selecionamos as substâncias mais frequentemente encontradas e verificamos o tempo, em média, que cada estado leva para analisar uma amostra que teste positivo para essas substâncias em questão. As tabelas apresentadas a seguir são referentes as análise descritiva para as seguintes substâncias: Trihalometanos Total, Ácidos Halocéticos total, Rádio-228, Nitrato(como N), Chumbo e Mercúrio.
+
+A tabela \ref{tab:tab4}, apresentam os resultados para a o tipo de substâncias Trihalometanos Total, nota-se que as médias de dias até a análise desta substância dos estados do \textbf{ES} e \textbf{SE} são consideravelmente superiores quando comparadas aos outros estados. 
 
 ```{r}
 medias_tempo_df1<- df1 |> 
@@ -250,6 +253,7 @@ knitr::kable(medias_tempo_df1, format = "latex", booktabs = TRUE, caption = "Tem
 
 ```
 
+A tabela \ref{tab:tab5}, apresenta os resultados para a substância Ácidos Halocéticos total.
 
 
 ```{r, echo=FALSE}
@@ -269,10 +273,6 @@ knitr::kable(medias_tempo_df2, format = "latex", booktabs = TRUE, caption = "Tem
 
 
 ```
-
-
-
-
 
 ```{r, fig.align='center', fig.width=10, fig.height=6, fig.cap="Ácidos haloacéticos total", label="fig3"}
 
@@ -301,7 +301,7 @@ knitr::kable(medias_tempo_df2, format = "latex", booktabs = TRUE, caption = "Tem
 
 
 
-Rádio-228
+A tabela \ref{tab:tab6} apresenta os resultados para o material Rádio-228.
 
 ```{r, echo=FALSE}
 medias_tempo_df3<- df3 |> 
@@ -343,9 +343,7 @@ knitr::kable(medias_tempo_df3, format = "latex", booktabs = TRUE, caption = "Tem
 
 ```
 
-
-
-Nitrato(como N)
+A tabela \ref{tab:tab7} apresenta os resultados da substância Nitrato(como N).
 
 ```{r, echo=FALSE}
 medias_tempo_df4<- df4 |> 
@@ -411,7 +409,7 @@ knitr::kable(medias_tempo_df4, format = "latex", booktabs = TRUE, caption = "Tem
 ```
 
 
-Chumbo
+A tabela \ref{tab:tab8} apresenta os resultados para a substância Chumbo.
 
 
 ```{r, echo=FALSE}
@@ -454,7 +452,7 @@ knitr::kable(medias_tempo_df6, format = "latex", booktabs = TRUE, caption = "Tem
 ```
 
 
-Mercúrio
+ A tabela \ref{tab:tab9} apresenta os resultados para substância Mercúrio.
 
 ```{r, echo=FALSE}
 
@@ -506,7 +504,10 @@ knitr::kable(medias_tempo_df7, format = "latex", booktabs = TRUE, caption = "Tem
 
 ```
 
+\newpage
 # Substâncias por Região
+
+Neste capítulo são apresentados as principais substâncias por estado de cada região brasileira. Devido a falta de mais informações, não foi possível avaliar as informações referente a região Norte do Brasil.
 
 ```{r, include=FALSE}
 # REGIÃO SUL
@@ -598,7 +599,7 @@ ggplot(top_subs_sul, aes(x = reorder(substancia, -n), y = n, fill = uf)) +
   geom_bar(stat = "identity", fill="#009afe") +
   geom_text(aes(label = n,vjust = -0.5))+
   facet_wrap(~ uf, scales = "free") +
-  labs(title = "Top Substancias por Frequencia em Cada Estado",
+  labs(title = "",
        x = "Substancia",
        y = "Frequencia") +
   theme_bw()+
