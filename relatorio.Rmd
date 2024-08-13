@@ -136,7 +136,7 @@ knitr::kable(banco_top10_sub, format = "latex", booktabs = TRUE, caption = "Top 
 
 \par
 
-A imagem \ref{fig:fig1} apresenta o gráfico de barras da frequência das substâncias.
+A imagem \ref{fig:fig1} apresenta o gráfico de barras da frequência das substâncias. 
 
 ```{r, fig.align='center', fig.cap="Top 10 substâncias - Banco Geral", label="fig1"}
 #, fig.width=11, fig.height=4
@@ -158,12 +158,15 @@ knitr::include_graphics("imagens/plot1.pdf")
   
 ```
 
+
+A tabela \ref{tab:tab2}, mostra a quantidade de municípios  testados por estado. Nota-se que \textbf{SP} e \textbf{PR} ocupam o primeiro e o segundo lugar, respectivamente, em número de municípios testados. Outro ponto importante é a falta de informações sobre estados quem compõem a região Norte e Nordeste do Brasil.
+
 ```{r, echo=FALSE}
 num_mun_estado<-banco |> 
   select(municipio, uf) |> 
   group_by(uf) |> 
   summarise(num_municipio=n_distinct(municipio)) |> 
-  arrange(num_municipio)
+  arrange(desc(num_municipio))
 
 knitr::kable(num_mun_estado, format = "latex", booktabs = TRUE, caption = "N° municípios por estado \\label{tab:tab2}") |> 
   kable_styling(latex_options = c("striped","HOLD_position"))
@@ -176,13 +179,15 @@ knitr::kable(num_mun_estado, format = "latex", booktabs = TRUE, caption = "N° m
 
 # Resultados do tempo de análise - Geral
 
-Uma avaliação preliminar do banco de dados revelou a presença de duas variáveis temporais de interesse: \textit{data\_da\_coleta} e \textit{data\_da\_analise}. Para investigar o tempo que cada município leva para analisar uma amostra de água coletada, calculou-se a diferença entre essas duas variáveis. Para a visualização das informações, foram selecionadas substâncias com a maior frequência de testes positivos por estado brasileiro, o resultado pode ser visualizado na tabela \ref{tab:tab2}. O gráfico \ref{fig:fig2}, apresenta o boxplot do tempo em dias até a análise da amostra coletada para os três anos de estudo. Nota-se que os estados da Bahia, Espirito Santo, Sergipe e Rio Grande do Sul, ocupam as últimas posições do \textit{rank}. 
+Uma avaliação preliminar do banco de dados revelou a presença de duas variáveis temporais de interesse: \textit{data\_da\_coleta} e \textit{data\_da\_analise}. Para investigar o tempo que cada município leva para analisar uma amostra de água coletada, calculou-se a diferença entre essas duas variáveis. Para a visualização das informações, foram selecionadas substâncias com a maior frequência de testes positivos por estado brasileiro, o resultado descritivo pode ser visualizado na tabela \ref{tab:tab2}.
+O gráfico \ref{fig:fig2}, apresenta o boxplot do tempo em dias até a análise da amostra coletada para os três anos de estudo. Nota-se que os estados da Bahia, Espirito Santo, Sergipe e Rio Grande do Sul, ocupam as últimas posições do \textit{rank}. 
 
 
 ```{r, echo=FALSE}
+#Sys.setlocale("LC_ALL", "pt_BR.UTF-8")
 medias_tempo<-banco |> 
   select(uf, dif_analise_coleta) |> 
-  filter(dif_analise_coleta >1) |> 
+  filter(dif_analise_coleta >0) |> 
   group_by(uf) |> 
   summarise(média = round(mean(dif_analise_coleta, na.rm = TRUE),2),
             mínimo = min(dif_analise_coleta, na.rm = TRUE),
@@ -198,8 +203,12 @@ knitr::kable(medias_tempo, format = "latex", booktabs = TRUE, caption = "Tempo (
 
 ```{r, fig.align='center', fig.width=10, fig.height=7, fig.cap="Tempo em dias até a análise - Banco Geral", label="fig2"}
 
-
-# gf2<-ggplot(df_media, aes(x = uf, y = dif_analise_coleta, fill = uf)) +
+# df_teste<-banco |> 
+#   select(uf, dif_analise_coleta, substancia) |> 
+#   group_by(uf) |> drop_na()
+# 
+# 
+# gf2<-ggplot(df_teste, aes(x = uf, y = dif_analise_coleta, fill = uf)) +
 #   geom_boxplot(fill = "#009afe", color = "black") +
 #   labs(title = "",
 #        x = "Estado",
@@ -210,10 +219,10 @@ knitr::kable(medias_tempo, format = "latex", booktabs = TRUE, caption = "Tempo (
 #     axis.text.y=element_text(color="black", size = 11),
 #     axis.ticks.length = unit(0.3, "cm"),
 #     legend.position = "none",
-#     plot.title = element_text(hjust = 0.5), 
+#     plot.title = element_text(hjust = 0.5),
 #     panel.grid = element_blank()) +
-#   scale_y_continuous(limits = c(0, 130), breaks = seq(0, 130, by = 10)) 
-#  
+#   scale_y_continuous(limits = c(0, 130), breaks = seq(0, 130, by = 10))
+# 
 # ggsave("imagens/plot2.pdf",plot = gf2, width = 28, height = 14, units = "cm", dpi = 600)
 
 
@@ -225,12 +234,10 @@ knitr::include_graphics("imagens/plot2.pdf")
 
 Para um estudo mais detalhado, selecionamos as substâncias mais frequentemente encontradas e verificamos o tempo que cada estado leva para analisar uma amostra que teste positivo para essas substâncias em questão.
 
-
-```{r, echo=FALSE}
-
-medias_tempo_df2<- df2 |> 
+```{r}
+medias_tempo_df1<- df1 |> 
   select(uf, dif_analise_coleta) |> 
-  filter(dif_analise_coleta >1) |> 
+  filter(dif_analise_coleta >0) |> 
   group_by(uf) |> 
   summarise(média = round(mean(dif_analise_coleta, na.rm = TRUE),2),
             mínimo = min(dif_analise_coleta, na.rm = TRUE),
@@ -238,7 +245,26 @@ medias_tempo_df2<- df2 |>
             máximo = max(dif_analise_coleta, na.rm = TRUE)) |>
   arrange(média)
 
-knitr::kable(medias_tempo_df2, format = "latex", booktabs = TRUE, caption = "Tempo (em dias) até a  análise - Ácidos Halocéticos total\\label{tab:tab4}") |> 
+knitr::kable(medias_tempo_df1, format = "latex", booktabs = TRUE, caption = "Tempo (em dias) até a  análise - Trihalometanos Total\\label{tab:tab4}") |> 
+  kable_styling(latex_options = c("striped","HOLD_position"), font_size = 8, full_width = FALSE)
+
+```
+
+
+
+```{r, echo=FALSE}
+#Sys.setlocale("LC_ALL", "pt_BR.UTF-8")
+medias_tempo_df2<- df2 |> 
+  select(uf, dif_analise_coleta) |> 
+  filter(dif_analise_coleta >0) |> 
+  group_by(uf) |> 
+  summarise(média = round(mean(dif_analise_coleta, na.rm = TRUE),2),
+            mínimo = min(dif_analise_coleta, na.rm = TRUE),
+            mediana = median(dif_analise_coleta, na.rm = TRUE),
+            máximo = max(dif_analise_coleta, na.rm = TRUE)) |>
+  arrange(média)
+
+knitr::kable(medias_tempo_df2, format = "latex", booktabs = TRUE, caption = "Tempo (em dias) até a  análise - Ácidos Halocéticos total\\label{tab:tab5}") |> 
   kable_styling(latex_options = c("striped","HOLD_position"), font_size = 8, full_width = FALSE)
 
 
@@ -280,7 +306,7 @@ Rádio-228
 ```{r, echo=FALSE}
 medias_tempo_df3<- df3 |> 
   select(uf, dif_analise_coleta) |> 
-  filter(dif_analise_coleta >1) |> 
+  filter(dif_analise_coleta >0) |> 
   group_by(uf) |> 
   summarise(média = round(mean(dif_analise_coleta, na.rm = TRUE),2),
             mínimo = min(dif_analise_coleta, na.rm = TRUE),
@@ -288,7 +314,7 @@ medias_tempo_df3<- df3 |>
             máximo = max(dif_analise_coleta, na.rm = TRUE)) |>
   arrange(média)
 
-knitr::kable(medias_tempo_df3, format = "latex", booktabs = TRUE, caption = "Tempo (em dias) até a  análise - Rádio-228\\label{tab:tab5}") |> 
+knitr::kable(medias_tempo_df3, format = "latex", booktabs = TRUE, caption = "Tempo (em dias) até a  análise - Rádio-228\\label{tab:tab6}") |> 
   kable_styling(latex_options = c("striped","HOLD_position"), font_size = 8, full_width = FALSE)
 ```
 
@@ -324,7 +350,7 @@ Nitrato(como N)
 ```{r, echo=FALSE}
 medias_tempo_df4<- df4 |> 
   select(uf, dif_analise_coleta) |> 
-  filter(dif_analise_coleta >1) |> 
+  filter(dif_analise_coleta >0) |> 
   group_by(uf) |> 
   summarise(média = round(mean(dif_analise_coleta, na.rm = TRUE),2),
             mínimo = min(dif_analise_coleta, na.rm = TRUE),
@@ -332,7 +358,7 @@ medias_tempo_df4<- df4 |>
             máximo = max(dif_analise_coleta, na.rm = TRUE)) |>
   arrange(média)
 
-knitr::kable(medias_tempo_df4, format = "latex", booktabs = TRUE, caption = "Tempo (em dias) até a  análise - Rádio-228\\label{tab:tab6}") |> 
+knitr::kable(medias_tempo_df4, format = "latex", booktabs = TRUE, caption = "Tempo (em dias) até a  análise - Nitrato(com N)\\label{tab:tab7}") |> 
   kable_styling(latex_options = c("striped","HOLD_position"), font_size = 8, full_width = FALSE)
 
 ```
@@ -393,7 +419,7 @@ Chumbo
 
 medias_tempo_df6<- df6 |> 
   select(uf, dif_analise_coleta) |> 
-  filter(dif_analise_coleta >1) |> 
+  filter(dif_analise_coleta >0) |> 
   group_by(uf) |> 
   summarise(média = round(mean(dif_analise_coleta, na.rm = TRUE),2),
             mínimo = min(dif_analise_coleta, na.rm = TRUE),
@@ -401,7 +427,7 @@ medias_tempo_df6<- df6 |>
             máximo = max(dif_analise_coleta, na.rm = TRUE)) |>
   arrange(média)
 
-knitr::kable(medias_tempo_df6, format = "latex", booktabs = TRUE, caption = "Tempo (em dias) até a  análise - Chumbo\\label{tab:tab7}") |> 
+knitr::kable(medias_tempo_df6, format = "latex", booktabs = TRUE, caption = "Tempo (em dias) até a  análise - Chumbo\\label{tab:tab8}") |> 
   kable_styling(latex_options = c("striped","HOLD_position"), font_size = 8, full_width = FALSE)
 
 
@@ -434,7 +460,7 @@ Mercúrio
 
 medias_tempo_df7<- df7 |> 
   select(uf, dif_analise_coleta) |> 
-  filter(dif_analise_coleta >1) |> 
+  filter(dif_analise_coleta >0) |> 
   group_by(uf) |> 
   summarise(média = round(mean(dif_analise_coleta, na.rm = TRUE),2),
             mínimo = min(dif_analise_coleta, na.rm = TRUE),
@@ -442,7 +468,7 @@ medias_tempo_df7<- df7 |>
             máximo = max(dif_analise_coleta, na.rm = TRUE)) |>
   arrange(média)
 
-knitr::kable(medias_tempo_df7, format = "latex", booktabs = TRUE, caption = "Tempo (em dias) até a  análise - Mercúrio\\label{tab:tab8}") |> 
+knitr::kable(medias_tempo_df7, format = "latex", booktabs = TRUE, caption = "Tempo (em dias) até a  análise - Mercúrio\\label{tab:tab9}") |> 
   kable_styling(latex_options = c("striped","HOLD_position"), font_size = 8, full_width = FALSE)
 
 
