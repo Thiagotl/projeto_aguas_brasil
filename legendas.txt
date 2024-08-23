@@ -1,0 +1,28 @@
+UF	11	Rondônia
+UF	12	Acre
+UF	13	Amazonas
+UF	14	Roraima
+UF	15	Pará
+UF	16	Amapá
+UF	17	Tocantins
+UF	21	Maranhão
+UF	22	Piauí
+UF	23	Ceará
+UF	24	Rio Grande do Norte
+UF	25	Paraíba
+UF	26	Pernambuco
+UF	27	Alagoas
+UF	28	Sergipe
+UF	29	Bahia
+UF	31	Minas Gerais
+UF	32	Espírito Santo
+UF	33	Rio de Janeiro
+UF	34	Guanabara
+UF	35	São Paulo
+UF	41	Paraná
+UF	42	Santa Catarina
+UF	43	Rio Grande do Sul
+UF	50	Mato Grosso do Sul
+UF	51	Mato Grosso
+UF	52	Goiás
+UF	53	Distrito Federal
