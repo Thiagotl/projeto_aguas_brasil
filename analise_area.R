@@ -4,7 +4,7 @@ library(tidyverse)
 # https://sidra.ibge.gov.br/tabela/5457
 #x <- get_sidra(x = 5457)
 
-#regiao <- c(1,6) # TA COM ERRO ESSA ALMA SEBOSA - API HORRIVEL
+#regiao <- c(1,6) # TA COM ERRO ESSA ALMA SEBOSA - API HORRIVEL DE PODI
 
 #ufs <- c(11, 12, 13, 14, 15, 16, 17, 21, 22, 23, 24, 25, 26, 27, 28, 
 #         29, 31, 32, 33, 34, 35, 41, 42, 43, 50, 51, 52, 53)
@@ -78,12 +78,22 @@ sisagua_ano2018$código_ibge <- as.character(sisagua_ano2018$código_ibge)
 sisagua_ano2018_sul<-sisagua_ano2018 |> 
   filter(região_geográfica == "SUL")
 
+sisagua_ano2018_sul <- sisagua_ano2018_sul |> 
+  filter(consistencia == "Consistente", 
+         atendimento_ao_padrao == "Acima do VMP")
+
+View(sisagua_ano2018_sul)
+
+
 tabela_soja_arroz_2018$Municipio <- toupper(tabela_soja_arroz_2018$Municipio)
 
-resultado <- tabela_soja_arroz_2018 |> inner_join(sisagua_ano2018_sul, by = c("Municipio" = "município"))
-View(resultado)
+View(tabela_soja_arroz_2018)
 
+#resultado <- tabela_soja_arroz_2018 |> inner_join(sisagua_ano2018_sul, by = c("Municipio" = "município"))
 
+#View(resultado)
+
+#openxlsx::write.xlsx(resultado, file = "resultado_2018.xlsx")
 
 
 
