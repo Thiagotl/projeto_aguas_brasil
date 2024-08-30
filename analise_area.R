@@ -79,9 +79,15 @@ sisagua_ano2018_sul<-sisagua_ano2018 |>
   filter(região_geográfica == "SUL")
 
 sisagua_ano2018_sul <- sisagua_ano2018_sul |> 
-  filter(consistencia == "Consistente", 
-         atendimento_ao_padrao == "Acima do VMP")
+  filter(consistencia == "Consistente",
+         parâmetro == "Arsênio - VMP:0,01 mg/L")
+#, 
+         #atendimento_ao_padrao == "Acima do VMP")
 
+
+View(table(sisagua_ano2018_sul$resultado))
+
+hist(as.numeric(sisagua_ano2018_sul$resultado))
 View(sisagua_ano2018_sul)
 
 
@@ -104,7 +110,7 @@ View(tabela_soja_arroz_2018)
 
 
 
-
+prop.table(table(sisagua_ano2018_sul$tipo_de_resultado))
 
 
 
