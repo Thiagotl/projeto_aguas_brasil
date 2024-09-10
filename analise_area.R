@@ -79,35 +79,28 @@ sisagua_ano2018_sul<-sisagua_ano2018 |>
   filter(região_geográfica == "SUL")
 
 sisagua_ano2018_sul <- sisagua_ano2018_sul |> 
-  filter(consistencia == "Consistente",
-         parâmetro == "Arsênio - VMP:0,01 mg/L")
+  filter(consistencia == "Consistente")
 #, 
          #atendimento_ao_padrao == "Acima do VMP")
 
 
+
+
 View(table(sisagua_ano2018_sul$resultado))
+
+View(sisagua_ano2018_sul)
+
 
 hist(as.numeric(sisagua_ano2018_sul$resultado))
 View(sisagua_ano2018_sul)
 
 
-tabela_soja_arroz_2018$Municipio <- toupper(tabela_soja_arroz_2018$Municipio)
-
-View(tabela_soja_arroz_2018)
-
+# tabela_soja_arroz_2018$Municipio <- toupper(tabela_soja_arroz_2018$Municipio)
+# 
+# View(tabela_soja_arroz_2018)
 #resultado <- tabela_soja_arroz_2018 |> inner_join(sisagua_ano2018_sul, by = c("Municipio" = "município"))
-
 #View(resultado)
-
 #openxlsx::write.xlsx(resultado, file = "resultado_2018.xlsx")
-
-
-
-
-
-
-
-
 
 
 prop.table(table(sisagua_ano2018_sul$tipo_de_resultado))
