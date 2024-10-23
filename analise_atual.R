@@ -3,6 +3,9 @@ library(tidyverse)
 
 dt<-fread("total_sisagua_anos_2014_2022_download_14_set_2024.csv")
 
+
+table(dt$tipo_de_resultado)
+
 #print(object.size(dt), units = 'Gb')
 #glimpse(dt)
 
